@@ -58,7 +58,7 @@ cmd_rsnapshot_diff	/usr/bin/rsnapshot-diff
 # e.g. alpha, beta, gamma, etc.         #
 #########################################
 
-retain	hourly	{{ int(24/rsnapshot_hourly_interval) }}
+retain	hourly	{{ 24 // rsnapshot_hourly_interval }}
 retain	daily	7
 retain	weekly	4
 retain	monthly	{{ rsnapshot_monthly_retain }}
