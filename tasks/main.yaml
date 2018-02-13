@@ -1,0 +1,42 @@
+---
+- name: Install rsnapshot
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - rsnapshot
+
+- name: Configure rsnapshot
+  template:
+    src: templates/rsnapshot.conf.j2
+    dest: /etc/rsnapshot.conf
+    mode: 0644
+    
+- name: Create snapshot root directory
+  file:
+    name: "{{ rsnapshot_root }}"
+    state: directory
+    mode: 0755
+
+- name: Create snapshot backup directories
+  file:
+    name: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items: "{{ rsnapshot_directories }}"
+
+- name: Add hourly snapshot to crontab    
+  cron: 
+    name: rsnapshot hourly
+    minute: 30
+    hour: "*/{{ rsnapshot_hourly_interval }}"
+    job: rsnapshot hourly
+    
+- name: Add daily/weekly/monthly snapshot to crontab
+  cron: 
+    name: "rsnapshot {{ item }}"
+    special_time: "{{ item }}"
+    job: "rsnapshot {{ item }}"
+  with_items:
+    - daily
+    - weekly
+    - monthly

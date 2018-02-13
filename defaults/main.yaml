@@ -1,0 +1,4 @@
+---
+rsnapshot_hourly_interval: 4
+rsnapshot_monthly_retain: 6
+rsnapshot_directories: []
