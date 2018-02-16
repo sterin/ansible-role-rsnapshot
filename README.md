@@ -29,7 +29,7 @@ List of directories to to take snapshots of.
 
 ```yaml
 
-- hosts: master
+- hosts: server
   become: yes
 
   roles:
